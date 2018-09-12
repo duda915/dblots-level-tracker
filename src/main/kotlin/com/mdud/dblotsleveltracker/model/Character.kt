@@ -12,12 +12,14 @@ data class Character (
         @Column(name = "name")
         var name:String,
 
-        @OneToMany(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "character_id", referencedColumnName = "id", nullable = false)
-        var advancesList:MutableList<Advance>,
-
         @Enumerated(EnumType.STRING)
         @Column(name = "race")
-        var race:Race
+        var race:Race,
+
+        @OneToMany(cascade = [CascadeType.ALL])
+        @JoinColumn(name = "character_id", referencedColumnName = "id", nullable = false)
+        var advancesList:MutableList<Advance>
+
+
 ){
 }
