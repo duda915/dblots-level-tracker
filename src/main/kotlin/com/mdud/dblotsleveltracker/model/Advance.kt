@@ -1,6 +1,6 @@
 package com.mdud.dblotsleveltracker.model
 
-import java.util.*
+import java.sql.Date
 import javax.persistence.*
 
 @Entity
