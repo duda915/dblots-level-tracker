@@ -20,7 +20,7 @@ class ScheduledReader(@Autowired val characterRepository: CharacterRepository) {
     @Scheduled(fixedDelay = 1000 * 60 * 5)
     fun parseAndSave() {
         println("Parsing timestamp: " + java.util.Date())
-        val doc: Document = Jsoup.connect("http://dblots.org.pl/whoisonline.php?lang=en&s=classic").get()
+        val doc: Document = Jsoup.connect("http://46.105.111.124/whoisonline.php?lang=en&s=classic").get()
         val elements: Elements = doc.select(".mid table tr")
         val onlineCharacterList = mutableListOf<CharacterDTO>()
         for (row in elements) {
