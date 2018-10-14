@@ -16,7 +16,7 @@ data class Character (
         @Column(name = "race")
         var race:Race,
 
-        @OneToMany(cascade = [CascadeType.ALL])
+        @OneToMany(fetch = FetchType.EAGER,cascade = [CascadeType.ALL])
         @JoinColumn(name = "character_id", referencedColumnName = "id", nullable = false)
         var advancesList:MutableList<Advance>
 

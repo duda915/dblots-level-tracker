@@ -64,6 +64,11 @@
 			<artifactId>kotlin-maven-noarg</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -85,6 +90,32 @@
 			<plugin>
 				<artifactId>kotlin-maven-plugin</artifactId>
 				<groupId>org.jetbrains.kotlin</groupId>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<sourceDirs>
+								<source>${project.basedir}/src/main/kotlin</source>
+							</sourceDirs>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>process-test-sources</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+						<configuration>
+							<sourceDirs>
+								<source>${project.basedir}/src/test/kotlin</source>
+							</sourceDirs>
+						</configuration>
+					</execution>
+				</executions>
 				<configuration>
 					<args>
 						<arg>-Xjsr305=strict</arg>
