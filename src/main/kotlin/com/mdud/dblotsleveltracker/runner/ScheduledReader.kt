@@ -17,7 +17,7 @@ import java.util.*
 @Component
 class ScheduledReader(@Autowired val characterRepository: CharacterRepository) {
 
-    @Scheduled(fixedDelay = 1000 * 60 * 5)
+    @Scheduled(fixedDelay = 1000 * 2 * 5)
     fun parseAndSave() {
         println("Parsing timestamp: " + java.util.Date())
         val doc: Document = Jsoup.connect("http://46.105.111.124/whoisonline.php?lang=en&s=classic").get()
@@ -53,10 +53,19 @@ class ScheduledReader(@Autowired val characterRepository: CharacterRepository) {
             }
 
             val defaultAdvanceList = mutableListOf<Advance>(Advance(null, null, Date(Date().time), it.level, 0))
-            val character = todayData.getOrNull(index ?: -1) ?: Character(null, it.nick, it.race, defaultAdvanceList)
+            val character = todayData.getOrNull(index ?: -1) ?:
+                    characterRepository.findByNameAndRace(it.nick, it.race).firstOrNull() ?:
+                    Character(null, it.nick, it.race, defaultAdvanceList)
             val advanceList = character.advancesList
+
+            //existing character
+            if(advanceList[advanceList.lastIndex].day.toString() != Date(Date().time).toString()) {
+                advanceList.add(Advance(null, null, Date(Date().time), it.level, 0))
+            }
+
             advanceList[advanceList.lastIndex].levelAdvances = it.level - advanceList[advanceList.lastIndex].startLevel
             characterRepository.save(character)
         }
+//        println(Date(Date().time))
     }
 }
